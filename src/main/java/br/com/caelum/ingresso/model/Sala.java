@@ -3,6 +3,9 @@ package br.com.caelum.ingresso.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,8 @@ public class Sala {
     @Id
     @GeneratedValue
     private Integer id;
+    
+    private BigDecimal preco;
 
     @NotBlank
     private String nome;
@@ -29,9 +34,18 @@ public class Sala {
 
     }
 
-    public Sala(String nome) {
+    public Sala(String nome, BigDecimal preco) {
         this.nome = nome;
+        this.preco = preco;
     }
+    
+    public BigDecimal getPreco() {
+		return Optional.ofNullable(this.preco).orElse(BigDecimal.ZERO).setScale(2, RoundingMode.HALF_UP);
+	}
+    
+    public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
 
     public Integer getId() {
         return id;
